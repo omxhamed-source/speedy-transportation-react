@@ -8,6 +8,27 @@ import {
 const fadeUp = { hidden: { opacity: 0, y: 28 }, visible: { opacity: 1, y: 0 } };
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } };
 
+const LOGO = "/speedy-transportation-react/logo.png";
+
+const fleetImages = [
+  {
+    url: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=85&auto=format&fit=crop",
+    label: "Long Haul Fleet",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=900&q=85&auto=format&fit=crop",
+    label: "Cross-Country Delivery",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?w=900&q=85&auto=format&fit=crop",
+    label: "Highway Operations",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85&auto=format&fit=crop",
+    label: "Freight Shipping",
+  },
+];
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -23,7 +44,7 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navItems = ["Services", "About", "Locations", "Careers", "Contact"];
+  const navItems = ["Services", "Fleet", "About", "Locations", "Careers", "Contact"];
 
   const services = [
     { icon: <Route className="h-6 w-6" />, title: "Long Haul Trucking", desc: "Cross-country freight with experienced drivers and real-time load tracking." },
@@ -63,13 +84,7 @@ export default function App() {
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#05070b]/80 backdrop-blur-xl border-b border-white/10" : "bg-transparent"}`}>
         <div className="max-w-7xl mx-auto px-5 md:px-8 h-20 flex items-center justify-between">
           <a href="#home" className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-orange-500 flex items-center justify-center shadow-[0_0_35px_rgba(249,115,22,.4)]">
-              <Truck className="h-5 w-5 text-black" />
-            </div>
-            <div>
-              <p className="font-semibold tracking-tight leading-none">Speedy Transportation</p>
-              <p className="text-xs text-white/45 mt-1">Freight · Logistics · Capacity</p>
-            </div>
+            <img src={LOGO} alt="Speedy Transportation LLC" className="h-10 w-auto" />
           </a>
 
           <nav className="hidden md:flex items-center gap-8 text-sm text-white/65">
@@ -106,12 +121,24 @@ export default function App() {
       </header>
 
       {/* HERO */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/8 rounded-full blur-3xl pointer-events-none" />
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-5 pt-20 overflow-hidden">
+        {/* Background truck image */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1920&q=80&auto=format&fit=crop"
+            alt="Speedy Transportation truck on highway"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[#05070b]/80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#05070b] via-[#05070b]/40 to-transparent" />
+        </div>
 
-        <motion.div className="text-center max-w-4xl mx-auto relative" initial="hidden" animate="visible" variants={stagger}>
-          <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-semibold px-4 py-2 mb-8 tracking-widest uppercase">
+        <motion.div className="text-center max-w-4xl mx-auto relative z-10" initial="hidden" animate="visible" variants={stagger}>
+          <motion.div variants={fadeUp} className="mb-8">
+            <img src={LOGO} alt="Speedy Transportation LLC" className="h-24 md:h-32 w-auto mx-auto drop-shadow-2xl" />
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs font-semibold px-4 py-2 mb-6 tracking-widest uppercase">
             <ShieldCheck className="h-3.5 w-3.5" /> Licensed &amp; Fully Insured
           </motion.div>
 
@@ -120,7 +147,7 @@ export default function App() {
             <span className="text-orange-500">Fast &amp; Reliably</span>
           </motion.h1>
 
-          <motion.p variants={fadeUp} className="text-white/55 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          <motion.p variants={fadeUp} className="text-white/65 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
             Speedy Transportation LLC delivers across the country — Minnesota, Ohio, and California. Long haul, local, refrigerated, and more.
           </motion.p>
 
@@ -170,8 +197,41 @@ export default function App() {
         </div>
       </section>
 
+      {/* FLEET GALLERY */}
+      <section id="fleet" className="py-28 px-5 bg-white/2 border-y border-white/8">
+        <div className="max-w-6xl mx-auto">
+          <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+            <motion.p variants={fadeUp} className="text-orange-500 text-xs font-bold tracking-widest uppercase mb-3">Our Fleet</motion.p>
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tight">Built to Deliver</motion.h2>
+            <motion.p variants={fadeUp} className="text-white/50 mt-4 max-w-lg mx-auto">Modern, well-maintained trucks operated by professional drivers — every load treated with care.</motion.p>
+          </motion.div>
+
+          <motion.div className="grid sm:grid-cols-2 gap-5" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
+            {fleetImages.map((img) => (
+              <motion.div key={img.label} variants={fadeUp} className="relative rounded-2xl overflow-hidden group aspect-video">
+                <img
+                  src={img.url}
+                  alt={img.label}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                {/* Logo watermark */}
+                <img
+                  src={LOGO}
+                  alt="Speedy Transportation LLC"
+                  className="absolute top-4 right-4 h-10 w-auto drop-shadow-lg opacity-90"
+                />
+                {/* Label */}
+                <p className="absolute bottom-4 left-4 font-bold text-white text-sm tracking-wide">{img.label}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* ABOUT */}
-      <section id="about" className="py-28 px-5 bg-white/2 border-y border-white/8">
+      <section id="about" className="py-28 px-5">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.p variants={fadeUp} className="text-orange-500 text-xs font-bold tracking-widest uppercase mb-3">Who We Are</motion.p>
@@ -187,15 +247,22 @@ export default function App() {
             </motion.ul>
           </motion.div>
 
+          {/* About image with logo overlay */}
           <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
-            className="rounded-3xl border border-white/10 bg-white/4 h-80 flex items-center justify-center text-8xl">
-            🚚
+            className="relative rounded-3xl overflow-hidden h-80 group">
+            <img
+              src="https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=900&q=85&auto=format&fit=crop"
+              alt="Speedy Transportation fleet"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <img src={LOGO} alt="Speedy Transportation LLC" className="absolute bottom-4 left-4 h-12 w-auto drop-shadow-lg" />
           </motion.div>
         </div>
       </section>
 
       {/* LOCATIONS */}
-      <section id="locations" className="py-28 px-5">
+      <section id="locations" className="py-28 px-5 bg-white/2 border-y border-white/8">
         <div className="max-w-5xl mx-auto">
           <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.p variants={fadeUp} className="text-orange-500 text-xs font-bold tracking-widest uppercase mb-3">Where We Operate</motion.p>
@@ -215,7 +282,7 @@ export default function App() {
       </section>
 
       {/* CAREERS */}
-      <section id="careers" className="py-28 px-5 bg-white/2 border-y border-white/8">
+      <section id="careers" className="py-28 px-5">
         <div className="max-w-3xl mx-auto">
           <motion.div className="text-center mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.p variants={fadeUp} className="text-orange-500 text-xs font-bold tracking-widest uppercase mb-3">Join Our Team</motion.p>
@@ -265,7 +332,7 @@ export default function App() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-28 px-5">
+      <section id="contact" className="py-28 px-5 bg-white/2 border-y border-white/8">
         <motion.div className="max-w-2xl mx-auto text-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
           <motion.p variants={fadeUp} className="text-orange-500 text-xs font-bold tracking-widest uppercase mb-3">Get in Touch</motion.p>
           <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black tracking-tight mb-4">Ready to Ship?</motion.h2>
@@ -281,8 +348,11 @@ export default function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-white/8 py-8 px-5 text-center text-white/30 text-sm">
-        <p>© 2026 <span className="text-orange-500 font-semibold">Speedy Transportation LLC</span> · Minnesota · Ohio · California</p>
+      <footer className="border-t border-white/8 py-10 px-5">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <img src={LOGO} alt="Speedy Transportation LLC" className="h-10 w-auto" />
+          <p className="text-white/30 text-sm text-center">© 2026 <span className="text-orange-500 font-semibold">Speedy Transportation LLC</span> · Minnesota · Ohio · California</p>
+        </div>
       </footer>
     </div>
   );
